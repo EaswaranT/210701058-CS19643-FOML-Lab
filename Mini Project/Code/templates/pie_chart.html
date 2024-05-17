@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pie Charts</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #555;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .blood-group {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative; /* Position relative for absolute positioning of glow */
+        }
+
+        .blood-group img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .red {
+            color: red;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            position: relative; /* Position relative for absolute positioning of glow */
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); }
+            50% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.9), 0 0 30px rgba(255, 0, 0, 0.7); }
+            100% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); }
+        }
+
+        .glow {
+            animation: glow 1s infinite alternate;
+        }
+    </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to check readmission percentage for each blood group
+        function checkReadmission() {
+            // Get all list items
+            var listItems = document.querySelectorAll('li');
+
+            // Iterate over each list item
+            listItems.forEach(function(item) {
+                // Get the text content of the list item
+                var textContent = item.textContent;
+
+                // Check if the text content includes a percentage and if that percentage is greater than 80%
+                if (textContent.includes('%') && parseFloat(textContent) > 80) {
+                    // Add 'glow' class to the list item
+                    item.classList.add('glow');
+                    // Add 'red' class to the list item
+                    item.classList.add('red');
+                }
+            });
+        }
+
+        // Call the function when the DOM is fully loaded
+        checkReadmission();
+    });
+</script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Blood Group Based Analysis</h1>
+
+        <div class="blood-group">
+            <h2>Blood Groups with Readmission Rate Above 80%:</h2>
+            <ul>
+                {% for blood_group, percentage in high_readmission_groups.items() %}
+                <li class="{% if percentage > 80 %}glow red{% endif %}">{{ blood_group }} - {{ percentage }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <h2>Blood Group Results</h2>
+
+        {% for chart in charts %}
+        <div class="blood-group" data-readmission-percentage="{{ chart.readmission_percentage }}">
+            <h2>{{ chart.blood_group }}</h2>
+            <img src="data:image/png;base64,{{ chart.pie_chart }}" alt="Pie Chart">
+        </div>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

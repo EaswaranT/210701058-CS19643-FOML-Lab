@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surgery Readmission Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .chart {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .chart img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .description {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .description p {
+            margin: 10px 0;
+        }
+
+        .highlight {
+            animation: glow 1s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); }
+            50% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.9), 0 0 30px rgba(255, 0, 0, 0.7); }
+            100% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Readmission Rates by Surgery Type</h1>
+
+        <div class="chart">
+            <img src="data:image/png;base64,{{ surgery_chart }}" alt="Surgery Readmission Chart">
+        </div>
+
+        <div class="description">
+            <p>The chart above shows the readmission rates for different types of surgeries.</p>
+            <p>The surgery type with the highest readmission rate is <span class="highlight">{{ highest_readmission_type }}</span>.</p>
+            <p>Understanding which surgeries have the highest readmission rates can help in implementing targeted interventions to reduce these rates.</p>
+        </div>
+    </div>
+</body>
+</html>
