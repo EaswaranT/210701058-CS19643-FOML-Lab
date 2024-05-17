@@ -3,86 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Dashboard</title>
+    <title>Patient Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
         .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            margin: 20px;
+            overflow: hidden; /* Ensure no horizontal overflow */
+        }
+
+        .container h1 {
+            font-size: 24px;
+            color: #1a73e8;
+            margin-bottom: 20px;
             text-align: center;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
-        .dropdown-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
+        .btn {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            min-width: 160px;
-            border-radius: 5px;
-            overflow: hidden;
+        .btn:hover {
+            background-color: #0d47a1;
         }
 
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: calc(50% - 20px); /* Two cards per row */
+            max-width: 300px; /* Maximum width for the card */
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .card-link {
+            color: #1a73e8;
             text-decoration: none;
+            font-size: 14px;
             display: block;
+            margin-top: 10px;
+            transition: color 0.3s ease;
         }
 
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
+        .card-link:hover {
+            color: #0d47a1;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-button {
-            background-color: #0056b3;
+        @media (max-width: 600px) {
+            .card {
+                width: calc(100% - 20px); /* Full width on smaller screens */
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="display-4">Select Analysis</h1>
-        <div class="dropdown">
-            <button class="dropdown-button">Choose Analysis</button>
-            <div class="dropdown-content">
-                <a href="#" onclick="redirectTo('/blood')">Blood Analysis</a>
-                <a href="#" onclick="redirectTo('/bmp')">BMP Analysis</a>
-                <a href="#" onclick="redirectTo('/surgery')">Surgery Analysis</a>
+        <h1>Patient Dashboard</h1>
+        <div class="btn-container">
+            <a href="/blood" class="btn">Blood Group</a>
+            <a href="/bmp" class="btn">BMP</a>
+            <a href="/surgery" class="btn">Surgery</a>
+            <a href="/cbc" class="btn">CBC</a>
+            <a href="/cholesterol" class="btn">Cholesterol</a>
+            <a href="/lft" class="btn">LFT</a>
+            <a href="/vitals" class="btn">Vitals</a>
+            <a href="/appointments" class="btn">Appointments</a>
+            <a href="/prescriptions" class="btn">Prescriptions</a>
+            <a href="/reports" class="btn">Medical Reports</a>
+            <a href="/profile" class="btn">Profile</a>
+            <a href="/settings" class="btn">Settings</a>
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <h2>Blood Group</h2>
+                <p>View and manage patient blood group information.</p>
+                <a href="/blood" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>BMP</h2>
+                <p>View and manage BMP test results.</p>
+                <a href="/bmp" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>Surgery</h2>
+                <p>Schedule and manage patient surgeries.</p>
+                <a href="/surgery" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>Appointments</h2>
+                <p>Manage upcoming patient appointments.</p>
+                <a href="/appointments" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>Prescriptions</h2>
+                <p>View and manage patient prescriptions.</p>
+                <a href="/prescriptions" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>Medical Reports</h2>
+                <p>Access and manage patient medical reports.</p>
+                <a href="/reports" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>CBC</h2>
+                <p>View and manage CBC test results.</p>
+                <a href="/cbc" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>Cholesterol</h2>
+                <p>View and manage cholesterol levels.</p>
+                <a href="/cholesterol" class="card-link">View Details</a>
+            </div>
+            <div class="card">
+                <h2>LFT</h2>
+                <p>View and manage LFT test results.</p>
+                <a href="/lft" class="card-link">View Details</a>
             </div>
         </div>
     </div>
-
-    <script>
-        function redirectTo(url) {
-            window.location.href = url;
-        }
-    </script>
 </body>
 </html>

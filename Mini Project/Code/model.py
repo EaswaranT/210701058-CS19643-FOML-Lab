@@ -15,7 +15,6 @@ conn = mysql.connector.connect(
     database='priee'
 )
 
-# Route for main page with dropdown
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -102,29 +101,12 @@ def get_bmp_data():
     highest_readmission_status = bmp_readmission_counts.idxmax()
     explode = [0.1 if status == highest_readmission_status else 0 for status in bmp_readmission_counts.index]
 
-    # Plotting 3D Pie Chart with Depth Effect
+    # Plotting 3D Pie Chart
     fig, ax = plt.subplots(figsize=(10, 7), subplot_kw=dict(aspect="equal"))
 
-    wedges, texts, autotexts = ax.pie(bmp_readmission_counts, labels=bmp_readmission_counts.index, autopct='%1.1f%%', startangle=140, colors=['skyblue', 'lightgreen', 'lightcoral', 'lightyellow'], explode=explode, wedgeprops=dict(width=0.3, edgecolor='w'))
+    wedges, texts, autotexts = ax.pie(bmp_readmission_counts, labels=bmp_readmission_counts.index, autopct='%1.1f%%', startangle=140, colors=['skyblue', 'lightgreen', 'lightcoral', 'lightyellow'], explode=explode, wedgeprops=dict(edgecolor='w'))
 
     ax.set_title('Distribution of Readmissions by BMP Status')
-
-    # Adding shadow effect
-    for w in wedges:
-        w.set_zorder(1)
-        w.set_edgecolor('w')
-
-    for t in texts:
-        t.set_zorder(2)
-
-    for at in autotexts:
-        at.set_zorder(3)
-        if at.get_text().startswith(str(bmp_readmission_counts.max())):
-            at.set_color('red')
-            at.set_fontsize(14)
-            at.set_fontweight('bold')
-            at.set_animated(True)
-            at.set_alpha(0.5)
 
     # Save plot to a buffer
     buffer = BytesIO()
@@ -133,8 +115,13 @@ def get_bmp_data():
     image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
     plt.close()
 
-    return render_template('bmp_chart.html', bmp_pie_chart=image_base64, highest_readmission_status=highest_readmission_status)
+    suggestions = {
+        'Normal': ['Ensure regular check-ups to maintain health.', 'Adopt a balanced diet.'],
+        'Abnormal': ['Follow prescribed treatment plans.', 'Schedule follow-up appointments regularly.'],
+        'Borderline': ['Immediate medical intervention required.', 'Ensure constant monitoring and support.']
+    }
 
+    return render_template('bmp_chart.html', bmp_pie_chart=image_base64, highest_readmission_status=highest_readmission_status, suggestions=suggestions[highest_readmission_status])
 @app.route('/surgery', methods=['GET'])
 def get_surgery_data():
     cursor = conn.cursor()
@@ -189,6 +176,5 @@ def get_surgery_data():
     plt.close()
 
     return render_template('surgery_chart.html', surgery_pie_chart=image_base64, highest_readmission_type=highest_readmission_type)
-
 if __name__ == '__main__':
     app.run(debug=True)
